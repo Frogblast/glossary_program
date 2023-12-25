@@ -5,6 +5,7 @@ using namespace std;
 
 int main()
 {
+    bool running = true;
     const int mapSize = 2;
     // Create hashmap with words
     // TODO: Read from a text-file
@@ -20,18 +21,23 @@ int main()
             cout << "Key: " << pair.first << " Value: " << pair.second << endl;
         } */
 
-    while (true)
+    while (running)
     {
+        string answer;
+
         // Show next word to be translated
         for (const auto &pair : glossaryMap)
         {
             cout << "The first word is: " << pair.first << endl;
             cout << "Enter the swedish translation" << endl;
-            string answer;
             cin >> answer;
-            if(answer == "q")
+
+            if (answer == "q")
+            {
+                running = false;
                 break;
-                
+            }
+
             // If correct (some % of correct letters) then congratulate, if not show the correct translation.
             if (answer == pair.second)
             {
@@ -41,9 +47,8 @@ int main()
             {
                 cout << "The correct answer is: " << pair.second << endl;
             }
+            // Go back to showing of the next word.
         }
-        // Go back to showing of the next word.    }
-
-        return 0;
     }
+    return 0;
 }
