@@ -15,21 +15,24 @@ int main()
     glossaryMap["Czesc"] = "Hej";
     glossaryMap["Slowo"] = "Ord";
 
-    std::cout << "HashMap contents:" << std::endl;
-    /*     for (const auto &pair : glossaryMap)
-        {
-            cout << "Key: " << pair.first << " Value: " << pair.second << endl;
-        } */
+    /*    std::cout << "HashMap contents:" << std::endl;
+   for (const auto &pair : glossaryMap)
+       {
+           cout << "Key: " << pair.first << " Value: " << pair.second << endl;
+       } */
 
     while (running)
     {
         string answer;
+        int correctLetters;
+        bool accepted = false;
 
         // Show next word to be translated
         for (const auto &pair : glossaryMap)
         {
-            cout << "The first word is: " << pair.first << endl;
-            cout << "Enter the swedish translation" << endl;
+            cout << "The next word is: " << pair.first << endl;
+            cout << "Enter the swedish translation \n"
+                 << endl;
             cin >> answer;
 
             if (answer == "q")
@@ -38,8 +41,28 @@ int main()
                 break;
             }
 
+            correctLetters = 0;
+
+            int correctLength = pair.second.length();
+            cout << "Correct letters: " << correctLetters << endl;
+
+            for (int i = 0; i < correctLength; i++)
+            {
+                if (pair.second[i] == answer[i])
+                {
+                    correctLetters++;
+                    cout << "Correct letters: " << correctLetters << endl;
+                }
+            }
+            float ratio = correctLetters / correctLength;
+            if (ratio > 0.5f)
+            {
+                accepted = true;
+                cout << "accepted is true" << endl;
+            }
+
             // If correct (some % of correct letters) then congratulate, if not show the correct translation.
-            if (answer == pair.second)
+            if (accepted)
             {
                 cout << "Good job" << endl;
             }
