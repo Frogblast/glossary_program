@@ -41,24 +41,26 @@ int main()
                 break;
             }
 
+            accepted = false;
             correctLetters = 0;
 
             int correctLength = pair.second.length();
-            cout << "Correct letters: " << correctLetters << endl;
 
             for (int i = 0; i < correctLength; i++)
             {
-                if (pair.second[i] == answer[i])
+                bool equalLetters = pair.second[i] == answer[i];
+                cout << "Equal letters? :" << equalLetters << endl;
+                if (equalLetters)
                 {
                     correctLetters++;
-                    cout << "Correct letters: " << correctLetters << endl;
                 }
             }
-            float ratio = correctLetters / correctLength;
-            if (ratio > 0.5f)
+            float ratio = static_cast<float>(correctLetters) / correctLength;
+            cout << "Ratio: " << ratio << " Correct letters: " << correctLetters << endl;
+
+            if (ratio > 0.6f)
             {
                 accepted = true;
-                cout << "accepted is true" << endl;
             }
 
             // If correct (some % of correct letters) then congratulate, if not show the correct translation.
