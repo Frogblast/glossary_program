@@ -5,7 +5,6 @@ using namespace std;
 
 int main()
 {
-
     const int mapSize = 2;
     // Create hashmap with words
     // TODO: Read from a text-file
@@ -16,33 +15,35 @@ int main()
     glossaryMap["Slowo"] = "Ord";
 
     std::cout << "HashMap contents:" << std::endl;
-/*     for (const auto &pair : glossaryMap)
-    {
-        cout << "Key: " << pair.first << " Value: " << pair.second << endl;
-    } */
+    /*     for (const auto &pair : glossaryMap)
+        {
+            cout << "Key: " << pair.first << " Value: " << pair.second << endl;
+        } */
 
-    // Show next word to be translated
-    for (const auto &pair : glossaryMap)
+    while (true)
     {
-        cout << "The first word is: " << pair.first << endl;
-        cout << "Enter the swedish translation" << endl;
-        string answer;
-        cin >> answer;
-        if (answer == pair.second)
+        // Show next word to be translated
+        for (const auto &pair : glossaryMap)
         {
-            cout << "Good job" << endl;
+            cout << "The first word is: " << pair.first << endl;
+            cout << "Enter the swedish translation" << endl;
+            string answer;
+            cin >> answer;
+            if(answer == "q")
+                break;
+                
+            // If correct (some % of correct letters) then congratulate, if not show the correct translation.
+            if (answer == pair.second)
+            {
+                cout << "Good job" << endl;
+            }
+            else
+            {
+                cout << "The correct answer is: " << pair.second << endl;
+            }
         }
-        else
-        {
-            cout << "The correct answer is: " << pair.second << endl;
-        }
+        // Go back to showing of the next word.    }
+
+        return 0;
     }
-
-    // Get input
-
-    // If correct (some % of correct letters) then congratulate, if not show the correct translation.
-
-    // Go back to showing of the next word.
-
-    return 0;
 }
