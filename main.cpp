@@ -15,14 +15,28 @@ int main()
     glossaryMap["Czesc"] = "Hej";
     glossaryMap["Slowo"] = "Ord";
 
-
     std::cout << "HashMap contents:" << std::endl;
-    for (const auto &pair : glossaryMap)
+/*     for (const auto &pair : glossaryMap)
     {
         cout << "Key: " << pair.first << " Value: " << pair.second << endl;
-    }
+    } */
 
     // Show next word to be translated
+    for (const auto &pair : glossaryMap)
+    {
+        cout << "The first word is: " << pair.first << endl;
+        cout << "Enter the swedish translation" << endl;
+        string answer;
+        cin >> answer;
+        if (answer == pair.second)
+        {
+            cout << "Good job" << endl;
+        }
+        else
+        {
+            cout << "The correct answer is: " << pair.second << endl;
+        }
+    }
 
     // Get input
 
