@@ -20,7 +20,6 @@ void gameLoop(std::unordered_map<std::__cxx11::string, std::__cxx11::string> &gl
 int main()
 {
     // Create hashmap with words
-    // TODO: Read from a text-file
     const string filePath = "./glossaryList.txt";
     ifstream inputFile(filePath);
 
@@ -31,47 +30,25 @@ int main()
 
     string fileAsOneBigString((istreambuf_iterator<char>(inputFile)), istreambuf_iterator<char>());
 
-    cout<< fileAsOneBigString<< endl;
-
     // Vector to store words
     vector<string> words;
 
     // Use std::istringstream to split the string
     istringstream iss(fileAsOneBigString);
     string word;
-    int vectorSize = 0;
 
     // Extract words and store them in the vector
     while (iss >> word) {
         words.push_back(word);
-        vectorSize++;
     }
-
 
     // Create an unordered_map with int keys and string values
     unordered_map<string, string> glossaryMap;
 
-    for (size_t i = 0; i < vectorSize; i+=2)
+    for (size_t i = 0; i < words.size(); i+=2)
     {
         glossaryMap[words[i]] = words[i+1];
-        cout<< "added word to map"<< endl;
     }
-
-/*     
-    // Display the words in the vector
-    cout << "Words in the vector:" << endl;
-    for (const auto& w : words) {
-        cout << w << endl;
-    } */
-
-/*     glossaryMap["Czesc"] = "Hej";
-    glossaryMap["Slowo"] = "Ord"; */
-
-    /*    std::cout << "HashMap contents:" << std::endl;
-   for (const auto &pair : glossaryMap)
-       {
-           cout << "Key: " << pair.first << " Value: " << pair.second << endl;
-       } */
 
     gameLoop(glossaryMap);
     return 0;
