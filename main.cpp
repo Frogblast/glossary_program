@@ -1,14 +1,27 @@
 #include <iostream>
 #include <unordered_map>
+#include <fstream>
 
 using namespace std;
 
+bool accepted = false;
+bool running = true;
+const int mapSize = 2;
+
+void giveFeedback(string correctAnswer);
+
+void countMatchingLetters(int correctLength, const std::pair<const std::__cxx11::string, std::__cxx11::string> &pair, std::__cxx11::string &answer, int &correctLetters);
+
+void gameLoop(std::unordered_map<std::__cxx11::string, std::__cxx11::string> &glossaryMap);
+
 int main()
 {
-    bool running = true;
-    const int mapSize = 2;
+
     // Create hashmap with words
     // TODO: Read from a text-file
+    fstream txtFile;
+    txtFile.open("./glossaryList.txt");
+    
     // Create an unordered_map with int keys and string values
     unordered_map<string, string> glossaryMap;
 
@@ -21,11 +34,18 @@ int main()
            cout << "Key: " << pair.first << " Value: " << pair.second << endl;
        } */
 
+    gameLoop(glossaryMap);
+    return 0;
+}
+
+void gameLoop(std::unordered_map<std::__cxx11::string, std::__cxx11::string> &glossaryMap)
+{
+    cout<<"Type the translation of the given word and hit enter.\n\t Answer \"q\" to quit the program."<< endl;
     while (running)
     {
         string answer;
         int correctLetters;
-        bool accepted = false;
+        accepted = false;
 
         // Show next word to be translated
         for (const auto &pair : glossaryMap)
@@ -44,36 +64,42 @@ int main()
             accepted = false;
             correctLetters = 0;
 
-            int correctLength = pair.second.length();
+            int correctWordLength = pair.second.length();
 
-            for (int i = 0; i < correctLength; i++)
-            {
-                bool equalLetters = pair.second[i] == answer[i];
-                cout << "Equal letters? :" << equalLetters << endl;
-                if (equalLetters)
-                {
-                    correctLetters++;
-                }
-            }
-            float ratio = static_cast<float>(correctLetters) / correctLength;
-            cout << "Ratio: " << ratio << " Correct letters: " << correctLetters << endl;
+            countMatchingLetters(correctWordLength, pair, answer, correctLetters);
 
-            if (ratio > 0.6f)
-            {
-                accepted = true;
-            }
+            float correctnessRatio = static_cast<float>(correctLetters) / correctWordLength;
 
-            // If correct (some % of correct letters) then congratulate, if not show the correct translation.
-            if (accepted)
-            {
-                cout << "Good job" << endl;
-            }
-            else
-            {
-                cout << "The correct answer is: " << pair.second << endl;
-            }
+            accepted = correctnessRatio > 0.6f;
+
+            giveFeedback(pair.second);
+
             // Go back to showing of the next word.
         }
     }
-    return 0;
+}
+
+void countMatchingLetters(int correctWordLength, const std::pair<const std::__cxx11::string, std::__cxx11::string> &pair, std::__cxx11::string &answer, int &correctLetters)
+{
+    for (int i = 0; i < correctWordLength; i++)
+    {
+        bool equalLetters = pair.second[i] == answer[i];
+        if (equalLetters)
+        {
+            correctLetters++;
+        }
+    }
+}
+
+void giveFeedback(string correctAnswer)
+{
+    // If correct (some % of correct letters) then congratulate, if not show the correct translation.
+    if (accepted)
+    {
+        cout << "Good job" << endl;
+    }
+    else
+    {
+        cout << "The correct answer is: " << correctAnswer << endl;
+    }
 }
