@@ -39,23 +39,33 @@ int main()
     // Use std::istringstream to split the string
     istringstream iss(fileAsOneBigString);
     string word;
+    int vectorSize = 0;
 
     // Extract words and store them in the vector
     while (iss >> word) {
         words.push_back(word);
+        vectorSize++;
     }
 
-    // Display the words in the vector
-    cout << "Words in the vector:" << endl;
-    for (const auto& w : words) {
-        cout << w << endl;
-    }
 
     // Create an unordered_map with int keys and string values
     unordered_map<string, string> glossaryMap;
 
-    glossaryMap["Czesc"] = "Hej";
-    glossaryMap["Slowo"] = "Ord";
+    for (size_t i = 0; i < vectorSize; i+=2)
+    {
+        glossaryMap[words[i]] = words[i+1];
+        cout<< "added word to map"<< endl;
+    }
+
+/*     
+    // Display the words in the vector
+    cout << "Words in the vector:" << endl;
+    for (const auto& w : words) {
+        cout << w << endl;
+    } */
+
+/*     glossaryMap["Czesc"] = "Hej";
+    glossaryMap["Slowo"] = "Ord"; */
 
     /*    std::cout << "HashMap contents:" << std::endl;
    for (const auto &pair : glossaryMap)
