@@ -1,3 +1,11 @@
+/* 
+TODO:
+Support for swedish and polish letters.
+Make everything lower-case by default.
+Randomize order of the words.
+Exclude the words that were correct. (Remove from hashMap).
+*/
+
 #include <iostream>
 #include <unordered_map>
 #include <fstream>
