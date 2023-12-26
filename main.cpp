@@ -1,6 +1,9 @@
 #include <iostream>
 #include <unordered_map>
 #include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
 
 using namespace std;
 
@@ -16,12 +19,38 @@ void gameLoop(std::unordered_map<std::__cxx11::string, std::__cxx11::string> &gl
 
 int main()
 {
-
     // Create hashmap with words
     // TODO: Read from a text-file
-    fstream txtFile;
-    txtFile.open("./glossaryList.txt");
-    
+    const string filePath = "./glossaryList.txt";
+    ifstream inputFile(filePath);
+
+    if(!inputFile.is_open()){
+        cerr<<"Error opening file: " << filePath<< endl;
+        return 1;
+    }
+
+    string fileAsOneBigString((istreambuf_iterator<char>(inputFile)), istreambuf_iterator<char>());
+
+    cout<< fileAsOneBigString<< endl;
+
+    // Vector to store words
+    vector<string> words;
+
+    // Use std::istringstream to split the string
+    istringstream iss(fileAsOneBigString);
+    string word;
+
+    // Extract words and store them in the vector
+    while (iss >> word) {
+        words.push_back(word);
+    }
+
+    // Display the words in the vector
+    cout << "Words in the vector:" << endl;
+    for (const auto& w : words) {
+        cout << w << endl;
+    }
+
     // Create an unordered_map with int keys and string values
     unordered_map<string, string> glossaryMap;
 
@@ -40,7 +69,7 @@ int main()
 
 void gameLoop(std::unordered_map<std::__cxx11::string, std::__cxx11::string> &glossaryMap)
 {
-    cout<<"Type the translation of the given word and hit enter.\n\t Answer \"q\" to quit the program."<< endl;
+    cout << "Type the translation of the given word and hit enter.\n\t Answer \"q\" to quit the program." << endl;
     while (running)
     {
         string answer;
