@@ -12,12 +12,16 @@ bool accepted = false;
 bool running = true;
 const int mapSize = 2;
 
+// Function to provide feedback based on correctness
 void giveFeedback(string word, string translation);
 
-void countMatchingLetters(int correctLength, const std::pair<const std::__cxx11::string, std::__cxx11::string> &pair, std::__cxx11::string &answer, int &correctLetters);
+// Function to count matching letters between the provided word and the user's answer
+void countMatchingLetters(int correctWordLength, const pair<const string, string> &pair, string &answer, int &correctLetters);
 
-void gameLoop(std::unordered_map<std::__cxx11::string, std::__cxx11::string> &glossaryMap);
+// Main game loop
+void gameLoop(unordered_map<string, string> &glossaryMap);
 
+// Function to clear the console screen
 void clearConsole();
 
 int main()
@@ -32,6 +36,7 @@ int main()
         return 1;
     }
 
+    // Read file content into a single string
     string fileAsOneBigString((istreambuf_iterator<char>(inputFile)), istreambuf_iterator<char>());
 
     // Vector to store words
@@ -47,19 +52,21 @@ int main()
         words.push_back(word);
     }
 
-    // Create an unordered_map with int keys and string values
+    // Create an unordered_map with string keys and string values
     unordered_map<string, string> glossaryMap;
 
+    // Populate the map with words and their translations
     for (size_t i = 0; i < words.size(); i += 2)
     {
         glossaryMap[words[i]] = words[i + 1];
     }
 
+    // Start the game loop
     gameLoop(glossaryMap);
     return 0;
 }
 
-void gameLoop(std::unordered_map<std::__cxx11::string, std::__cxx11::string> &glossaryMap)
+void gameLoop(unordered_map<string, string> &glossaryMap)
 {
     clearConsole();
 
@@ -74,11 +81,10 @@ void gameLoop(std::unordered_map<std::__cxx11::string, std::__cxx11::string> &gl
         for (const auto &pair : glossaryMap)
         {
             cout << "The next word is: " << pair.first << endl;
-            cout << "Enter the swedish translation \n"
+            cout << "Enter the Swedish translation \n"
                  << endl;
             cin >> answer;
             clearConsole();
-
 
             if (answer == "q")
             {
@@ -91,20 +97,23 @@ void gameLoop(std::unordered_map<std::__cxx11::string, std::__cxx11::string> &gl
 
             int correctWordLength = pair.second.length();
 
+            // Count the number of matching letters
             countMatchingLetters(correctWordLength, pair, answer, correctLetters);
 
             float correctnessRatio = static_cast<float>(correctLetters) / correctWordLength;
 
+            // Determine if the answer is accepted and provide feedback
             accepted = correctnessRatio > 0.6f;
 
+            // Display feedback
             giveFeedback(pair.first, pair.second);
 
-            // Go back to showing of the next word.
+            // Go back to showing the next word.
         }
     }
 }
 
-void countMatchingLetters(int correctWordLength, const std::pair<const std::__cxx11::string, std::__cxx11::string> &pair, std::__cxx11::string &answer, int &correctLetters)
+void countMatchingLetters(int correctWordLength, const pair<const string, string> &pair, string &answer, int &correctLetters)
 {
     for (int i = 0; i < correctWordLength; i++)
     {
