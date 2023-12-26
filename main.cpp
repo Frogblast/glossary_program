@@ -1,4 +1,4 @@
-/* 
+/*
 TODO:
 Support for swedish and polish letters.
 Make everything lower-case by default.
@@ -47,6 +47,9 @@ int main()
     // Read file content into a single string
     string fileAsOneBigString((istreambuf_iterator<char>(inputFile)), istreambuf_iterator<char>());
 
+    // Explictly close the input file since we are done with it
+    inputFile.close();
+
     // Vector to store words
     vector<string> words;
 
@@ -71,6 +74,7 @@ int main()
 
     // Start the game loop
     gameLoop(glossaryMap);
+
     return 0;
 }
 
@@ -138,11 +142,13 @@ void giveFeedback(string word, string translation)
     // If correct (some % of correct letters) then congratulate, if not show the correct translation.
     if (accepted)
     {
-        cout << "CORRECT!\n" << endl;
+        cout << "CORRECT!\n"
+             << endl;
     }
     else
     {
-        cout << "WRONG! The translation of: " << word << ", is: " << translation << "\n" << endl;
+        cout << "WRONG! The translation of: " << word << ", is: " << translation << "\n"
+             << endl;
     }
 }
 
