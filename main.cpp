@@ -4,6 +4,9 @@ Support for swedish and polish letters.
 Make everything lower-case by default.
 */
 
+// -*- coding: utf-8 -*-
+
+
 #include <iostream>
 #include <unordered_map>
 #include <fstream>
