@@ -2,9 +2,6 @@
 TODO:
 Support for swedish and polish letters.
 Make everything lower-case by default.
-Randomize order of the words.
-Exclude the words that were correct. (Remove from hashMap).
-Close program when hashMap is empty (and all words are studied).
 */
 
 #include <iostream>
