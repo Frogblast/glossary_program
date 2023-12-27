@@ -97,7 +97,7 @@ void gameLoop(unordered_map<string, string> &glossaryMap)
 
         auto it = next(begin(glossaryMap), randomIndex);
 
-        cout << "Remaining words: " << remainingWords << "\n"
+        cout << "Remaining words: " << remainingWords << ", Map size: "<<glossaryMap.size() << "\n"
              << endl;
         cout << "The next word is: " << it->first << endl;
         cout << "Enter the Swedish translation \n"
