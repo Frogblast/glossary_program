@@ -28,7 +28,7 @@ bool giveFeedback(string word, string translation);
 // Main game loop
 void gameLoop(unordered_map<string, string> &glossaryMap);
 
-void countMatchingLetters(int correctWordLength, std::unordered_map<std::__cxx11::string, std::__cxx11::string>::iterator &it, std::__cxx11::string &answer, int &correctLetters);
+void countMatchingLetters(const string &word, const string &answer, int &correctLetters);
 
 // Function to clear the console screen
 void clearConsole();
@@ -118,7 +118,7 @@ void gameLoop(unordered_map<string, string> &glossaryMap)
 
         // Count the number of matching letters
 
-        countMatchingLetters(correctWordLength, it, answer, correctLetters);
+        countMatchingLetters(it ->second, answer, correctLetters);
 
         float correctnessRatio = static_cast<float>(correctLetters) / correctWordLength;
 
@@ -135,11 +135,11 @@ void gameLoop(unordered_map<string, string> &glossaryMap)
     }
 }
 
-void countMatchingLetters(int correctWordLength, unordered_map<string, string>::iterator &it, string &answer, int &correctLetters)
+void countMatchingLetters(const string &word, const string &answer, int &correctLetters)
 {
-    for (int i = 0; i < correctWordLength; i++)
+    for (int i = 0; i < word.length(); i++)
     {
-        bool equalLetters = it->second[i] == answer[i];
+        bool equalLetters = word[i] == answer[i];
         if (equalLetters)
         {
             correctLetters++;
