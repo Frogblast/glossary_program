@@ -14,6 +14,7 @@ Close program when hashMap is empty (and all words are studied).
 #include <vector>
 #include <string>
 #include <cstdlib> // For system("clear") or system("cls")
+#include <random>
 
 using namespace std;
 
@@ -22,13 +23,12 @@ bool running = true;
 int remainingWords = 0;
 
 // Function to provide feedback based on correctness
-void giveFeedback(string word, string translation);
-
-// Function to count matching letters between the provided word and the user's answer
-void countMatchingLetters(int correctWordLength, const pair<const string, string> &pair, string &answer, int &correctLetters);
+bool giveFeedback(string word, string translation);
 
 // Main game loop
 void gameLoop(unordered_map<string, string> &glossaryMap);
+
+void countMatchingLetters(int correctWordLength, std::unordered_map<std::__cxx11::string, std::__cxx11::string>::iterator &it, std::__cxx11::string &answer, int &correctLetters);
 
 // Function to clear the console screen
 void clearConsole();
@@ -85,54 +85,61 @@ void gameLoop(unordered_map<string, string> &glossaryMap)
     clearConsole();
 
     cout << "Type the translation of the given word and hit enter.\n\t Answer \"q\" to quit the program." << endl;
-    while (running)
+    while (running && !glossaryMap.empty())
     {
         string answer;
         int correctLetters;
         accepted = false;
+        cout << "next round" << endl;
 
-        // Show next word to be translated
-        for (const auto &pair : glossaryMap)
+        // Stores a random value between 0 and current size of the map.
+        int randomIndex = rand() % glossaryMap.size();
+
+        auto it = next(begin(glossaryMap), randomIndex);
+
+        cout << "Remaining words: " << remainingWords << "\n"
+             << endl;
+        cout << "The next word is: " << it->first << endl;
+        cout << "Enter the Swedish translation \n"
+             << endl;
+        cin >> answer;
+        clearConsole();
+
+        if (answer == "q")
         {
-            cout << "Remaining words: " << remainingWords << "\n" << endl;
-            cout << "The next word is: " << pair.first << endl;
-            cout << "Enter the Swedish translation \n"
-                 << endl;
-            cin >> answer;
-            clearConsole();
-
-            if (answer == "q")
-            {
-                running = false;
-                break;
-            }
-
-            accepted = false;
-            correctLetters = 0;
-
-            int correctWordLength = pair.second.length();
-
-            // Count the number of matching letters
-            countMatchingLetters(correctWordLength, pair, answer, correctLetters);
-
-            float correctnessRatio = static_cast<float>(correctLetters) / correctWordLength;
-
-            // Determine if the answer is accepted and provide feedback
-            accepted = correctnessRatio > 0.6f;
-
-            // Display feedback
-            giveFeedback(pair.first, pair.second);
-
-            // Go back to showing the next word.
+            running = false;
+            break;
         }
+
+        accepted = false;
+        correctLetters = 0;
+
+        int correctWordLength = it->second.length();
+
+        // Count the number of matching letters
+
+        countMatchingLetters(correctWordLength, it, answer, correctLetters);
+
+        float correctnessRatio = static_cast<float>(correctLetters) / correctWordLength;
+
+        // Determine if the answer is accepted and provide feedback
+        accepted = correctnessRatio > 0.6f;
+
+        // Display feedback
+        if (giveFeedback(it->first, it->second))
+        {
+            glossaryMap.erase(it->first);
+        }
+
+        // Go back to showing the next word.
     }
 }
 
-void countMatchingLetters(int correctWordLength, const pair<const string, string> &pair, string &answer, int &correctLetters)
+void countMatchingLetters(int correctWordLength, unordered_map<string, string>::iterator &it, string &answer, int &correctLetters)
 {
     for (int i = 0; i < correctWordLength; i++)
     {
-        bool equalLetters = pair.second[i] == answer[i];
+        bool equalLetters = it->second[i] == answer[i];
         if (equalLetters)
         {
             correctLetters++;
@@ -140,19 +147,21 @@ void countMatchingLetters(int correctWordLength, const pair<const string, string
     }
 }
 
-void giveFeedback(string word, string translation)
+bool giveFeedback(string word, string translation)
 {
     // If correct (some % of correct letters) then congratulate, if not show the correct translation.
     if (accepted)
     {
         cout << "CORRECT!\n"
              << endl;
-             remainingWords--;
+        remainingWords--;
+        return true;
     }
     else
     {
         cout << "WRONG! The translation of: " << word << ", is: " << translation << "\n"
              << endl;
+        return false;
     }
 }
 
