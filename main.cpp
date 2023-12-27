@@ -20,7 +20,6 @@ using namespace std;
 
 bool accepted = false;
 bool running = true;
-int remainingWords = 0;
 
 // Function to provide feedback based on correctness
 bool giveFeedback(string word, string translation);
@@ -71,7 +70,6 @@ int main()
     for (size_t i = 0; i < words.size(); i += 2)
     {
         glossaryMap[words[i]] = words[i + 1];
-        remainingWords++;
     }
 
     // Start the game loop
@@ -97,7 +95,7 @@ void gameLoop(unordered_map<string, string> &glossaryMap)
 
         auto it = next(begin(glossaryMap), randomIndex);
 
-        cout << "Remaining words: " << remainingWords << ", Map size: "<<glossaryMap.size() << "\n"
+        cout << "Remaining words: " << glossaryMap.size() << "\n"
              << endl;
         cout << "The next word is: " << it->first << endl;
         cout << "Enter the Swedish translation \n"
@@ -154,7 +152,6 @@ bool giveFeedback(string word, string translation)
     {
         cout << "CORRECT!\n"
              << endl;
-        remainingWords--;
         return true;
     }
     else
