@@ -1,11 +1,9 @@
 /*
 TODO:
-Support for swedish and polish letters.
 Make everything lower-case by default.
 */
 
 // -*- coding: utf-8 -*-
-
 
 #include <iostream>
 #include <unordered_map>
@@ -103,6 +101,14 @@ void gameLoop(unordered_map<string, string> &glossaryMap)
         cin >> answer;
         clearConsole();
 
+        // Make all characters lower case
+        for (char &c : answer)
+        {
+            c = std::tolower(c);
+        }
+
+        cout << "Should be all lower case: " << answer<< endl;
+
         if (answer == "q")
         {
             running = false;
@@ -116,7 +122,7 @@ void gameLoop(unordered_map<string, string> &glossaryMap)
 
         // Count the number of matching letters
 
-        countMatchingLetters(it ->second, answer, correctLetters);
+        countMatchingLetters(it->second, answer, correctLetters);
 
         float correctnessRatio = static_cast<float>(correctLetters) / correctWordLength;
 
