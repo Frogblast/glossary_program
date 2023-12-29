@@ -1,9 +1,4 @@
-/*
-TODO:
-Make everything lower-case by default.
-*/
-
-// -*- coding: utf-8 -*-
+// C:\Repositories\glossary_program
 
 #include <iostream>
 #include <unordered_map>
@@ -107,8 +102,7 @@ void gameLoop(unordered_map<string, string> &glossaryMap)
             c = std::tolower(c);
         }
 
-        cout << "Should be all lower case: " << answer<< endl;
-
+        // Check if program should quit
         if (answer == "q")
         {
             running = false;
